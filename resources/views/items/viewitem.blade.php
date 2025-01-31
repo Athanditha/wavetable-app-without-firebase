@@ -21,7 +21,7 @@
             <p class="text-sm text-gray-500"></p>
         </div>
         <div class="mb-4">
-            <img src="" alt="" class="img-fluid w-full h-64 object-cover rounded-lg">
+            <img src="" alt="" class="img-fluid w-full h-full object-cover rounded-lg">
         </div>
         <div class="mb-4">
             <p class="text-gray-700 mb-2"><strong>Brand:</strong> <span id="brand"></span></p>

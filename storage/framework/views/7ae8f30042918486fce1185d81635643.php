@@ -94,66 +94,41 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Get item ID from URL
         const pathParts = window.location.pathname.split('/');
         const itemId = pathParts[pathParts.length - 2];
         const token = document.querySelector('meta[name="csrf-token"]').content;
 
-        console.log('Fetching item with ID:', itemId); // Debug log
+        // Use the item data passed from controller instead of making API call
+        const item = <?php echo json_encode($item, 15, 512) ?>;
+        
+        // Populate form fields with existing data
+        document.getElementById('brand').value = item.brand || '';
+        document.getElementById('name').value = item.name || '';
+        document.getElementById('category').value = item.category || '';
+        document.getElementById('description').value = item.description || '';
+        document.getElementById('quantity').value = item.quantity || '';
+        document.getElementById('sale_price').value = item.sale_price || '';
+        document.getElementById('rental_rate').value = item.rental_rate || '';
+        
+        // Set existing image
+        if (item.image) {
+            document.getElementById('existing_image').value = item.image;
+        }
 
-        // Fetch item data
-        fetch(`/api/items/${itemId}`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(response => {
-            console.log('API Response:', response); // Debug log
-            const item = response.data;
-
-            // Populate form fields
-            document.getElementById('brand').value = item.brand || '';
-            document.getElementById('name').value = item.name || '';
-            document.getElementById('category').value = item.category || '';
-            document.getElementById('description').value = item.description || '';
-            document.getElementById('quantity').value = item.quantity || '';
-            document.getElementById('sale_price').value = item.sale_price || '';
-            document.getElementById('rental_rate').value = item.rental_rate || '';
-            
-            // If there's an existing image, store its URL
-            if (item.image) {
-                const hiddenImageInput = document.createElement('input');
-                hiddenImageInput.type = 'hidden';
-                hiddenImageInput.name = 'existing_image';
-                hiddenImageInput.value = item.image;
-                document.getElementById('editItemForm').appendChild(hiddenImageInput);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to load item details. Please try again.');
-        });
-
-        // Update the form submission handler
+        // Form submission handler
         document.getElementById('editItemForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(this);
-
-            // Add debugging
-            console.log('Updating item with ID:', itemId);
-
+            
+            // Ensure method and existing image are included
+            formData.append('_method', 'PUT');
+            
             fetch(`/api/items/${itemId}`, {
-                method: 'POST',
+                method: 'POST', // Keep as POST, Laravel will interpret _method: PUT
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'X-CSRF-TOKEN': token,
-                    // Remove 'Content-Type' header to let the browser set it with the boundary for FormData
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: formData
             })
@@ -168,10 +143,10 @@
             .then(data => {
                 console.log('Update successful:', data);
                 alert('Item updated successfully!');
-                window.location.href = '/items';
+                window.location.href = '/admin/items';
             })
             .catch(error => {
-                console.error('Error updating item:', error);
+                console.error('Error:', error);
                 alert(error.message || 'Error updating item. Please try again.');
             });
         });

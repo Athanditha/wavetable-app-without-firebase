@@ -12,7 +12,7 @@
     <div class="w-full max-w-xl mx-auto px-6">
         <!-- Logo Section -->
         <div class="text-center mb-12">
-            <img src="{{ asset('darklogo.png') }}" alt="WaveTable Logo" class="w-48 mx-auto mb-8">
+            <img src="{{ asset('logolight.png') }}" alt="WaveTable Logo" class="w-48 mx-auto mb-8">
             <h1 class="text-3xl font-bold mb-2">Admin Dashboard</h1>
             <p class="text-gray-600">Manage your store with ease</p>
         </div>
