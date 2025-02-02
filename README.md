@@ -1,10 +1,3 @@
-IMPORTANT
-
-•	This application is hosted with Ngrok to test crud functions via API. Make sure to run the ngrok application and type “ngrok http 8000” when the application is currently running within localhost to create a temporary public domain.
-
-•	The application has a Firebase connection. DO NOT upload this project into a Public GitHub Repository. This will make the Firebase API Keys useless as it disables the key from Google themselves. To combat this, creating a Firebase Project and replacing the Firebase parameters respectively from your end would suffice.
-
- 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
